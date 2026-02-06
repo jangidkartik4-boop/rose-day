@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Rose Day ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
+body{
+  height:100vh;
+  background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  position:relative;
+}
+
+/* ROSE BACKGROUND */
+body::before{
+  content:"🌹 🌹 🌹 🌹 🌹 🌹 🌹 🌹";
+  position:absolute;
+  inset:0;
+  font-size:4rem;
+  opacity:0.12;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:space-around;
+  align-content:space-around;
+  pointer-events:none;
+}
+
+.page{
+  display:none;
+  text-align:center;
+  padding:22px;
+  animation:fade 0.6s ease;
+  z-index:1;
+}
+.page.active{display:block;}
+
+h1{color:#b3003b;font-size:2rem;margin-bottom:15px;}
+p{color:#5a001f;font-size:1.1rem;margin-bottom:18px;}
+
+.btn{
+  background:#ff4d6d;
+  color:#fff;
+  padding:12px 26px;
+  border:none;
+  border-radius:30px;
+  font-size:1rem;
+  cursor:pointer;
+  transition:0.3s;
+}
+.btn:hover{background:#e6004c;transform:scale(1.05);}
+
+.rose{font-size:4rem;animation:float 2s infinite;}
+.big-rose{font-size:9rem;animation:float 2.5s infinite;}
+.hearts{font-size:1.6rem;animation:pop 1s infinite alternate;}
+.sorry{font-size:3.8rem;}
+
+.quiz{
+  text-align:left;
+  background:rgba(255,255,255,0.65);
+  padding:15px;
+  border-radius:15px;
+}
+
+.quiz label{display:block;margin:10px 0;cursor:pointer;}
+
+@keyframes fade{
+  from{opacity:0;transform:scale(0.9);}
+  to{opacity:1;transform:scale(1);}
+}
+@keyframes float{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-12px);}
+}
+@keyframes pop{
+  from{transform:scale(1);}
+  to{transform:scale(1.2);}
+}
+</style>
+</head>
+<body>
+
+<!-- MUSIC (Blue – Yung Kai) -->
+<audio id="bgMusic" loop>
+  <source src="https://files.catbox.moe/5m8w6r.mp3" type="audio/mpeg">
+</audio>
+
+<!-- PAGE 1 -->
+<div class="page active">
+  <div class="rose">🌹</div>
+  <h1>Hey My Love ❤️</h1>
+  <p>I made something just for you…</p>
+  <button class="btn" onclick="startExperience()">Tap 💕</button>
+</div>
+
+<!-- Page 2 -->
+<div class="page">
+  <h1>Happy Rose Day 🌹</h1>
+  <p>If I could, I’d give you a real rose…<br>
+  but for now, this one carries all my love 💖</p>
+  <button class="btn" onclick="nextPage()">Next 👉</button>
+</div>
+
+<!-- PAGE 3 – SORRY -->
+<div class="page">
+  <div class="sorry">🥺💔</div>
+  <h1>I’m Truly Sorry</h1>
+  <p>
+    I know my behaviour hurts you sometimes…<br>
+    and it hurts me knowing I caused that pain 💔
+  </p>
+  <p>
+    You deserve patience, softness,<br>
+    and a love that never makes you doubt 💞
+  </p>
+  <p>
+    I promise to grow, listen,<br>
+    and love you better every single day ❤️
+  </p>
+  <button class="btn" onclick="nextPage(true)">I mean it 🥺</button>
+</div>
+
+<!-- PAGE 4 – QUIZ -->
+<div class="page">
+  <h1>Little Quiz 😋</h1>
+  <p>Answer honestly 💗</p>
+  <div class="quiz">
+    <p><b>Who loves you the most?</b></p>
+    <label><input type="radio" name="q"> Someone else 😒</label>
+    <label><input type="radio" name="q"> Friends😤 </label>
+    <label><input type="radio" name="q" id="correct"> kartikk daddy 🤭😌❤️</label>
+  </div>
+  <button class="btn" onclick="checkAnswer()">Submit 💘</button>
+</div>
+
+<!-- PAGE 5 -->
+<div class="page">
+  <div class="hearts">💗💗💗</div>
+  <h1>You Mean Everything</h1>
+  <p>
+    Loving you is my favourite thing,<br>
+    choosing you is my forever choice ❤️
+  </p>
+  <button class="btn" onclick="nextPage(true)">Last page 🌹</button>
+</div>
+
+<!-- PAGE 6 -->
+<div class="page">
+  <div class="big-rose">🌹</div>
+  <h1>Always Yours</h1>
+  <p>
+    This rose is a promise —<br>
+    of love, effort, and forever 💖
+  </p>
+  <p>Happy Rose Day, my love 🌹</p>
+</div>
+
+<script>
+let current=0;
+const pages=document.querySelectorAll('.page');
+const music=document.getElementById("bgMusic");
+
+function vibrateSoft(){
+  if(navigator.vibrate){
+    navigator.vibrate([120,60,120]);
+  }
+}
+
+function startExperience(){
+  music.play().catch(()=>{});
+  nextPage(true);
+}
+
+function nextPage(vibe=false){
+  if(vibe) vibrateSoft();
+  pages[current].classList.remove('active');
+  current++;
+  if(current<pages.length){
+    pages[current].classList.add('active');
+  }
+}
+
+function checkAnswer(){
+  if(document.getElementById('correct').checked){
+    alert("Correct 💖 You know my heart 😌");
+    nextPage(true);
+  }else{
+    alert("Nope 😤 Try again!");
+  }
+}
+</script>
+
+</body>
+</html>
